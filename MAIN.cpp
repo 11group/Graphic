@@ -10,12 +10,17 @@
 #include <vector>
 using namespace std;
 
-GLint Width = 1920, Height = 1280;
-GLubyte ColorR = 0, ColorG = 0, ColorB = 0;
-GLubyte PointSize = 5;
-GLubyte LineSize = 3;
+GLint Width = 1268, Height = 680;
+
+
 int n = 0;
 
+struct Characters
+{
+	GLubyte ColorR = 0, ColorG = 0, ColorB = 0;
+	GLubyte PointSize = 5;
+	GLubyte LineSize = 3;
+};
 
 enum keys { Empty, KeyR, KeyG, KeyB, KeyW, KeyA, KeyS, KeyD, KeyU, KeyI, KeyZ, KeyX, KeyN};
 
@@ -26,28 +31,35 @@ struct type_point
 	GLint x, y;
 	type_point(GLint _x, GLint _y) { x = _x; y = _y; }
 };
+
 vector <vector <type_point>> Points;
+vector <Characters> Numb;
 
 /* Функция вывода на экран */
 void Display(void)
 {
 	glClearColor(240, 255, 240, 1); glClear(GL_COLOR_BUFFER_BIT);
-	glColor3ub(ColorR, ColorG, ColorB);
-	glPointSize(PointSize);
-	glBegin(GL_POINTS);
+	
+	
 	for (int j = 0; j < Points.size(); j++)
-		for (int i = 0; i<Points[j].size(); i++)
-			glVertex2i(Points[j][i].x, Points[j][i].y);
-	glEnd();
-
-	glColor3ub(ColorR, ColorG, ColorB);
-	glLineWidth(LineSize);
-	glBegin(GL_LINE_LOOP);
-	for (int j = 0; j < Points.size(); j++)
+	{
+		glColor3ub(Numb[j].ColorR, Numb[j].ColorG, Numb[j].ColorB);
+		glPointSize(Numb[j].PointSize);
+		glBegin(GL_POINTS);
 		for (int i = 0; i < Points[j].size(); i++)
 			glVertex2i(Points[j][i].x, Points[j][i].y);
-	glEnd();
-
+		glEnd();
+	}
+	
+	for (int j = 0; j < Points.size(); j++) 
+	{
+		glColor3ub(Numb[j].ColorR, Numb[j].ColorG, Numb[j].ColorB);
+		glLineWidth(Numb[j].LineSize);
+		glBegin(GL_LINE_LOOP);
+		for (int i = 0; i < Points[j].size(); i++)
+			glVertex2i(Points[j][i].x, Points[j][i].y);
+		glEnd();
+	}
 	glFinish();
 }
 
@@ -69,9 +81,9 @@ void Keyboard(unsigned char key, int x, int y)
 	int i, m = Points.size();
 
 	/* Изменение RGB-компонент цвета точек */
-	if (key == 'r') ColorR += 5;
-	if (key == 'g') ColorG += 5;
-	if (key == 'b') ColorB += 5;
+	if (key == 'r') Numb[n].ColorR += 5;
+	if (key == 'g') Numb[n].ColorG += 5;
+	if (key == 'b') Numb[n].ColorB += 5;
 
 	/* Изменение XY-кординат точек */
 	if (key == 'w') for (i = 0; i<m; i++) Points[n][i].y += 5;
@@ -80,12 +92,12 @@ void Keyboard(unsigned char key, int x, int y)
 	if (key == 'd') for (i = 0; i<m; i++) Points[n][i].x += 5;
 
 	/* Изменение размера точек */
-	if (key == 'u') PointSize++;
-	if (key == 'i') PointSize--;
+	if (key == 'u') Numb[n].PointSize++;
+	if (key == 'i') Numb[n].PointSize--;
 
 	/* Изменение размера линии */
-	if (key == 'j') LineSize++;
-	if (key == 'k') LineSize--;
+	if (key == 'j') Numb[n].LineSize++;
+	if (key == 'k') Numb[n].LineSize--;
 
 	/* Изменение группы примитивов*/
 	if (key == 'x') if (n + 1 < Points.size()) n++;
@@ -94,14 +106,16 @@ void Keyboard(unsigned char key, int x, int y)
 	/* новая группа примитивов */
 	if(key == 'n') 
 	{
-		vector <type_point> A;
-		Points.push_back(A);
+		//vector <type_point> A;
+		//Points.push_back(A);
 		n++;
+		Points.resize(n+1);
+		Numb.resize(n + 1);
 	}
 
 	glutPostRedisplay();
 
-	char v[50]; sprintf(v, "Текущий цвет всех точек: R=%.3d G=%.3d B=%.3d", ColorR, ColorG, ColorB);
+	char v[90]; sprintf(v, "Текущий цвет всех точек: R=%.3d G=%.3d B=%.3d  Текущий номер группы примитивов: %d", Numb[n].ColorR, Numb[n].ColorG, Numb[n].ColorB, n+1);
 	glutSetWindowTitle(v);
 }
 
@@ -185,7 +199,8 @@ void Menu(int pos)
 /* Головная программа */
 void main(int argc, char *argv[])
 {
-	Points.resize(n+1);
+	Points.resize(n + 1);
+	Numb.resize(n + 1);
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGB);
