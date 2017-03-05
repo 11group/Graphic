@@ -1,54 +1,57 @@
 /*
-Отключено консольное (главное) окно:
+РћС‚РєР»СЋС‡РµРЅРѕ РєРѕРЅСЃРѕР»СЊРЅРѕРµ (РіР»Р°РІРЅРѕРµ) РѕРєРЅРѕ:
 	Linker ->  Advanced -> Entery Point := "mainCRTStartup"
 	Linker ->  System -> SubSystem := "Windows (/SUBSYSTEM:WINDOWS)"
 */
 
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdlib.h>
 #include <glut.h>
-//#include <glaux.h>
 #include <vector>
 using namespace std;
 
-GLint Width = 512, Height = 512;
+GLint Width = 1920, Height = 1280;
 GLubyte ColorR = 0, ColorG = 0, ColorB = 0;
 GLubyte PointSize = 5;
 GLubyte LineSize = 3;
+int n = 0;
 
 
-enum keys { Empty, KeyR, KeyG, KeyB, KeyW, KeyA, KeyS, KeyD, KeyU,KeyI };
+enum keys { Empty, KeyR, KeyG, KeyB, KeyW, KeyA, KeyS, KeyD, KeyU, KeyI, KeyZ, KeyX, KeyN};
 
 
-/* задание контейнера вершин */
+/* Р·Р°РґР°РЅРёРµ РєРѕРЅС‚РµР№РЅРµСЂР° РІРµСЂС€РёРЅ */
 struct type_point
 {
 	GLint x, y;
 	type_point(GLint _x, GLint _y) { x = _x; y = _y; }
 };
-vector <type_point> Points;
+vector <vector <type_point>> Points;
 
-/* Функция вывода на экран */
+/* Р¤СѓРЅРєС†РёСЏ РІС‹РІРѕРґР° РЅР° СЌРєСЂР°РЅ */
 void Display(void)
 {
-	glClearColor(0.5, 0.5, 0.5, 1); glClear(GL_COLOR_BUFFER_BIT);
+	glClearColor(240, 255, 240, 1); glClear(GL_COLOR_BUFFER_BIT);
 	glColor3ub(ColorR, ColorG, ColorB);
 	glPointSize(PointSize);
 	glBegin(GL_POINTS);
-	for (int i = 0; i<Points.size(); i++)
-		glVertex2i(Points[i].x, Points[i].y);
+	for (int j = 0; j < Points.size(); j++)
+		for (int i = 0; i<Points[j].size(); i++)
+			glVertex2i(Points[j][i].x, Points[j][i].y);
 	glEnd();
 
 	glColor3ub(ColorR, ColorG, ColorB);
 	glLineWidth(LineSize);
 	glBegin(GL_LINE_LOOP);
-	for (int i = 0; i<Points.size(); i++)
-		glVertex2i(Points[i].x, Points[i].y);
+	for (int j = 0; j < Points.size(); j++)
+		for (int i = 0; i < Points[j].size(); i++)
+			glVertex2i(Points[j][i].x, Points[j][i].y);
 	glEnd();
 
 	glFinish();
 }
 
-/* Функция изменения размеров окна */
+/* Р¤СѓРЅРєС†РёСЏ РёР·РјРµРЅРµРЅРёСЏ СЂР°Р·РјРµСЂРѕРІ РѕРєРЅР° */
 void Reshape(GLint w, GLint h)
 {
 	Width = w;    Height = h;
@@ -60,56 +63,69 @@ void Reshape(GLint w, GLint h)
 	glLoadIdentity();
 }
 
-/* Функция обработки сообщений от клавиатуры */
+/* Р¤СѓРЅРєС†РёСЏ РѕР±СЂР°Р±РѕС‚РєРё СЃРѕРѕР±С‰РµРЅРёР№ РѕС‚ РєР»Р°РІРёР°С‚СѓСЂС‹ */
 void Keyboard(unsigned char key, int x, int y)
 {
-	int i, n = Points.size();
+	int i, m = Points.size();
 
-	/* Изменение RGB-компонент цвета точек */
+	/* РР·РјРµРЅРµРЅРёРµ RGB-РєРѕРјРїРѕРЅРµРЅС‚ С†РІРµС‚Р° С‚РѕС‡РµРє */
 	if (key == 'r') ColorR += 5;
 	if (key == 'g') ColorG += 5;
 	if (key == 'b') ColorB += 5;
 
-	/* Изменение XY-кординат точек */
-	if (key == 'w') for (i = 0; i<n; i++) Points[i].y += 5;
-	if (key == 's') for (i = 0; i<n; i++) Points[i].y -= 5;
-	if (key == 'a') for (i = 0; i<n; i++) Points[i].x -= 5;
-	if (key == 'd') for (i = 0; i<n; i++) Points[i].x += 5;
+	/* РР·РјРµРЅРµРЅРёРµ XY-РєРѕСЂРґРёРЅР°С‚ С‚РѕС‡РµРє */
+	if (key == 'w') for (i = 0; i<m; i++) Points[n][i].y += 5;
+	if (key == 's') for (i = 0; i<m; i++) Points[n][i].y -= 5;
+	if (key == 'a') for (i = 0; i<m; i++) Points[n][i].x -= 5;
+	if (key == 'd') for (i = 0; i<m; i++) Points[n][i].x += 5;
 
-	/* Изменение размера точек */
+	/* РР·РјРµРЅРµРЅРёРµ СЂР°Р·РјРµСЂР° С‚РѕС‡РµРє */
 	if (key == 'u') PointSize++;
 	if (key == 'i') PointSize--;
 
-	/* Изменение размера линии */
+	/* РР·РјРµРЅРµРЅРёРµ СЂР°Р·РјРµСЂР° Р»РёРЅРёРё */
 	if (key == 'j') LineSize++;
 	if (key == 'k') LineSize--;
 
+	/* РР·РјРµРЅРµРЅРёРµ РіСЂСѓРїРїС‹ РїСЂРёРјРёС‚РёРІРѕРІ*/
+	if (key == 'x') if (n + 1 < Points.size()) n++;
+	if (key == 'z') if (n != 0) n--;
+
+	/* РЅРѕРІР°СЏ РіСЂСѓРїРїР° РїСЂРёРјРёС‚РёРІРѕРІ */
+	if(key == 'n') 
+	{
+		vector <type_point> A;
+		Points.push_back(A);
+		n++;
+	}
+
 	glutPostRedisplay();
 
-	char v[50]; sprintf(v, "Текущий цвет всех точек: R=%.3d G=%.3d B=%.3d", ColorR, ColorG, ColorB);
+	char v[50]; sprintf(v, "РўРµРєСѓС‰РёР№ С†РІРµС‚ РІСЃРµС… С‚РѕС‡РµРє: R=%.3d G=%.3d B=%.3d", ColorR, ColorG, ColorB);
 	glutSetWindowTitle(v);
 }
 
-/* Функция обработки сообщения от мыши */
+/* Р¤СѓРЅРєС†РёСЏ РѕР±СЂР°Р±РѕС‚РєРё СЃРѕРѕР±С‰РµРЅРёСЏ РѕС‚ РјС‹С€Рё */
 void Mouse(int button, int state, int x, int y)
 {
-	/* клавиша была нажата, но не отпущена */
+	/* РєР»Р°РІРёС€Р° Р±С‹Р»Р° РЅР°Р¶Р°С‚Р°, РЅРѕ РЅРµ РѕС‚РїСѓС‰РµРЅР° */
 	if (state != GLUT_DOWN) return;
 
-	/* новая точка по левому клику */
+	/* РЅРѕРІР°СЏ С‚РѕС‡РєР° РїРѕ Р»РµРІРѕРјСѓ РєР»РёРєСѓ */
 	if (button == GLUT_LEFT_BUTTON)
 	{
 		type_point p(x, Height - y);
-		Points.push_back(p);
+		Points[n].push_back(p);
 	}
-	/* удаление последней точки по центральному клику */
+	/* СѓРґР°Р»РµРЅРёРµ РїРѕСЃР»РµРґРЅРµР№ С‚РѕС‡РєРё РїРѕ С†РµРЅС‚СЂР°Р»СЊРЅРѕРјСѓ РєР»РёРєСѓ */
 	if (button == GLUT_MIDDLE_BUTTON)
 	{
-		if(PointSize!=0)
-			Points.pop_back();
+		if(Points[n].size()!=0)
+			Points[n].pop_back();
 		else
 		{
-			//вставка изображения
+
+			// СЃРїСЂРѕСЃРёС‚СЊ, РєР°Рє СЃРґРµР»Р°С‚СЊ, С‡С‚Рѕ РїСЂРё Р·Р°РєСЂС‹С‚РёРё СЌС‚РѕРіРѕ РѕРєРЅР° РїСЂРѕРіСЂР°РјРјР° РЅРµ РїР°РґР°РµС‚
 		}
 	}
 
@@ -131,27 +147,34 @@ void Menu(int pos)
 		case KeyD: Keyboard('d', 0, 0); break;
 		case KeyU: Keyboard('u', 0, 0); break;
 		case KeyI: Keyboard('i', 0, 0); break;
+		case KeyX: Keyboard('x', 0, 0); break;
+		case KeyZ: Keyboard('z', 0, 0); break;
+		case KeyN: Keyboard('n', 0, 0); break;
 
 		default:
 			int menu_color = glutCreateMenu(Menu);
-			glutAddMenuEntry("Компонента R", KeyR);
-			glutAddMenuEntry("Компонента G", KeyG);
-			glutAddMenuEntry("Компонента B", KeyB);
+			glutAddMenuEntry("РљРѕРјРїРѕРЅРµРЅС‚Р° R", KeyR);
+			glutAddMenuEntry("РљРѕРјРїРѕРЅРµРЅС‚Р° G", KeyG);
+			glutAddMenuEntry("РљРѕРјРїРѕРЅРµРЅС‚Р° B", KeyB);
 
 			int menu_move = glutCreateMenu(Menu);
-			glutAddMenuEntry("Вверх",  KeyW);
-			glutAddMenuEntry("Вниз",   KeyS);
-			glutAddMenuEntry("Bлево",  KeyA);
-			glutAddMenuEntry("Вправо", KeyD);
+			glutAddMenuEntry("Р’РІРµСЂС…",  KeyW);
+			glutAddMenuEntry("Р’РЅРёР·",   KeyS);
+			glutAddMenuEntry("BР»РµРІРѕ",  KeyA);
+			glutAddMenuEntry("Р’РїСЂР°РІРѕ", KeyD);
 
 			int menu_size = glutCreateMenu(Menu);
-			glutAddMenuEntry("Увеличить", KeyU);
-			glutAddMenuEntry("Уменьшить", KeyI);
+			glutAddMenuEntry("РЈРІРµР»РёС‡РёС‚СЊ", KeyU);
+			glutAddMenuEntry("РЈРјРµРЅСЊС€РёС‚СЊ", KeyI);
+
+			int menu_numb_primitiv = glutCreateMenu(Menu);
+			glutAddMenuEntry("РЎР»РµРґСѓСЋС‰РёР№ РїСЂРёРјРёС‚РёРІ", KeyX);
+			glutAddMenuEntry("РџСЂРµРґС‹РґСѓС‰РёР№ РїСЂРёРјРёС‚РёРІ", KeyZ);
 
 			int menu = glutCreateMenu(Menu);
-			glutAddSubMenu("Смена цвета", menu_color);
-			glutAddSubMenu("Перемещение", menu_move);
-			glutAddSubMenu("Изменение размера точки", menu_size);
+			glutAddSubMenu("РЎРјРµРЅР° С†РІРµС‚Р°", menu_color);
+			glutAddSubMenu("РџРµСЂРµРјРµС‰РµРЅРёРµ", menu_move);
+			glutAddSubMenu("РР·РјРµРЅРµРЅРёРµ СЂР°Р·РјРµСЂР° С‚РѕС‡РєРё", menu_size);
 
 			glutAttachMenu(GLUT_RIGHT_BUTTON);
 			Keyboard(Empty,0,0);
@@ -159,13 +182,15 @@ void Menu(int pos)
 }
 
 
-/* Головная программа */
+/* Р“РѕР»РѕРІРЅР°СЏ РїСЂРѕРіСЂР°РјРјР° */
 void main(int argc, char *argv[])
 {
+	Points.resize(n+1);
+
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGB);
 	glutInitWindowSize(Width, Height);
-	glutCreateWindow("Текущий цвет всех точек:");
+	glutCreateWindow("РўРµРєСѓС‰РёР№ С†РІРµС‚ РІСЃРµС… С‚РѕС‡РµРє:");
 	Menu(Empty);
 	glutDisplayFunc(Display);
 	glutReshapeFunc(Reshape);
