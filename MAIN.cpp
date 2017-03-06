@@ -78,7 +78,7 @@ void Reshape(GLint w, GLint h)
 /* Функция обработки сообщений от клавиатуры */
 void Keyboard(unsigned char key, int x, int y)
 {
-	int i, m = Points.size();
+	int i, m = Points[n].size();
 
 	/* Изменение RGB-компонент цвета точек */
 	if (key == 'r') Numb[n].ColorR += 5;
