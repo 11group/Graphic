@@ -12,9 +12,9 @@ using namespace std;
 
 GLint Width = 1268, Height = 680;
 
-
 int n = 0;
 
+/* задание контейнера характеристик точек */
 struct Characters
 {
 	GLubyte ColorR = 0, ColorG = 0, ColorB = 0;
@@ -106,8 +106,6 @@ void Keyboard(unsigned char key, int x, int y)
 	/* новая группа примитивов */
 	if(key == 'n') 
 	{
-		//vector <type_point> A;
-		//Points.push_back(A);
 		n++;
 		Points.resize(n+1);
 		Numb.resize(n + 1);
@@ -138,8 +136,9 @@ void Mouse(int button, int state, int x, int y)
 			Points[n].pop_back();
 		else
 		{
-
-			// спросить, как сделать, что при закрытии этого окна программа не падает
+			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			// спросить, как сделать, чтобы при закрытии дополнительного окна программа не падала
+			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		}
 	}
 
@@ -182,13 +181,14 @@ void Menu(int pos)
 			glutAddMenuEntry("Уменьшить", KeyI);
 
 			int menu_numb_primitiv = glutCreateMenu(Menu);
-			glutAddMenuEntry("Следующий примитив", KeyX);
-			glutAddMenuEntry("Предыдущий примитив", KeyZ);
+			glutAddMenuEntry("Следующая группа примитивов", KeyX);
+			glutAddMenuEntry("Предыдущий группа примитивов", KeyZ);
 
 			int menu = glutCreateMenu(Menu);
 			glutAddSubMenu("Смена цвета", menu_color);
 			glutAddSubMenu("Перемещение", menu_move);
 			glutAddSubMenu("Изменение размера точки", menu_size);
+			glutAddSubMenu("Изменениегруппы примитивов", menu_numb_primitiv);
 
 			glutAttachMenu(GLUT_RIGHT_BUTTON);
 			Keyboard(Empty,0,0);
