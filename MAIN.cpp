@@ -16,17 +16,17 @@ GLint Width = 1268, Height = 680;
 
 int n = 0, k = 0;
 int mode = 0;
-bool modeGrid = 0;		 // 0 - нет, 1 - включена
-bool smoothMode = 0;	 //режим сглаживания
-int colorMod = 0;		 // 0 - нет, 1 - and, 2 - not and
-int gridSize = 12;		 //размер сетки
-int smoothSize = 6;	     //размер сетки сглаживания
+bool modeGrid = 0;		 // 0 - РЅРµС‚, 1 - РІРєР»СЋС‡РµРЅР°
+bool smoothMode = 0;	 //СЂРµР¶РёРј СЃРіР»Р°Р¶РёРІР°РЅРёСЏ
+int colorMod = 0;		 // 0 - РЅРµС‚, 1 - and, 2 - not and
+int gridSize = 12;		 //СЂР°Р·РјРµСЂ СЃРµС‚РєРё
+int smoothSize = 6;	     //СЂР°Р·РјРµСЂ СЃРµС‚РєРё СЃРіР»Р°Р¶РёРІР°РЅРёСЏ
 
 
 enum keys { Empty, KeyR, KeyG, KeyB, KeyW, KeyA, KeyS, KeyD, KeyU, KeyI, KeyZ, KeyX, KeyN, KeyJ, KeyK, KeyC, Key1, Key2};
 
 
-/* задание контейнера вершин */
+/* Р·Р°РґР°РЅРёРµ РєРѕРЅС‚РµР№РЅРµСЂР° РІРµСЂС€РёРЅ */
 struct type_point
 {
 	float x, y;
@@ -34,13 +34,13 @@ struct type_point
 	type_point() {}
 };
 
-/* задание цвета пикселей */
+/* Р·Р°РґР°РЅРёРµ С†РІРµС‚Р° РїРёРєСЃРµР»РµР№ */
 struct colour
 {
 	GLubyte ColorR = 0, ColorG = 0, ColorB = 0;
 };
 
-/* задание контейнера характеристик точек */
+/* Р·Р°РґР°РЅРёРµ РєРѕРЅС‚РµР№РЅРµСЂР° С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРє С‚РѕС‡РµРє */
 struct Characters
 {
 	GLubyte ColorR = 0, ColorG = 0, ColorB = 0;
@@ -64,7 +64,7 @@ struct Characters
 
 };
 
-/* задание контейнера "шестиугольник" */
+/* Р·Р°РґР°РЅРёРµ РєРѕРЅС‚РµР№РЅРµСЂР° "С€РµСЃС‚РёСѓРіРѕР»СЊРЅРёРє" */
 struct Hexagon
 {
 	GLint r, ob, ab;
@@ -85,7 +85,7 @@ vector <Characters> Numb;
 vector <type_point> TextureCoordinates;
 unsigned int textures[9];
 
-/* загрузка текстур */
+/* Р·Р°РіСЂСѓР·РєР° С‚РµРєСЃС‚СѓСЂ */
 void Textures()
 {
 	glGenTextures(7, textures);
@@ -99,27 +99,27 @@ void Textures()
 	AUX_RGBImageRec *image8 = auxDIBImageLoad(L"8.bmp");
 	AUX_RGBImageRec *image9 = auxDIBImageLoad(L"9.bmp");
 
-	glBindTexture(GL_TEXTURE_2D, textures[0]); //выбрать текущую текстуру
+	glBindTexture(GL_TEXTURE_2D, textures[0]); //РІС‹Р±СЂР°С‚СЊ С‚РµРєСѓС‰СѓСЋ С‚РµРєСЃС‚СѓСЂСѓ
 	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, image1->sizeX, image1->sizeY, GL_RGB, GL_UNSIGNED_BYTE, image1->data);
-	glBindTexture(GL_TEXTURE_2D, textures[1]); //выбрать текущую текстуру
+	glBindTexture(GL_TEXTURE_2D, textures[1]); //РІС‹Р±СЂР°С‚СЊ С‚РµРєСѓС‰СѓСЋ С‚РµРєСЃС‚СѓСЂСѓ
 	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, image2->sizeX, image2->sizeY, GL_RGB, GL_UNSIGNED_BYTE, image2->data);
-	glBindTexture(GL_TEXTURE_2D, textures[2]); //выбрать текущую текстуру
+	glBindTexture(GL_TEXTURE_2D, textures[2]); //РІС‹Р±СЂР°С‚СЊ С‚РµРєСѓС‰СѓСЋ С‚РµРєСЃС‚СѓСЂСѓ
 	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, image3->sizeX, image3->sizeY, GL_RGB, GL_UNSIGNED_BYTE, image3->data);
-	glBindTexture(GL_TEXTURE_2D, textures[3]); //выбрать текущую текстуру
+	glBindTexture(GL_TEXTURE_2D, textures[3]); //РІС‹Р±СЂР°С‚СЊ С‚РµРєСѓС‰СѓСЋ С‚РµРєСЃС‚СѓСЂСѓ
 	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, image4->sizeX, image4->sizeY, GL_RGB, GL_UNSIGNED_BYTE, image4->data);
-	glBindTexture(GL_TEXTURE_2D, textures[4]); //выбрать текущую текстуру
+	glBindTexture(GL_TEXTURE_2D, textures[4]); //РІС‹Р±СЂР°С‚СЊ С‚РµРєСѓС‰СѓСЋ С‚РµРєСЃС‚СѓСЂСѓ
 	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, image5->sizeX, image5->sizeY, GL_RGB, GL_UNSIGNED_BYTE, image5->data);
-	glBindTexture(GL_TEXTURE_2D, textures[5]); //выбрать текущую текстуру
+	glBindTexture(GL_TEXTURE_2D, textures[5]); //РІС‹Р±СЂР°С‚СЊ С‚РµРєСѓС‰СѓСЋ С‚РµРєСЃС‚СѓСЂСѓ
 	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, image6->sizeX, image6->sizeY, GL_RGB, GL_UNSIGNED_BYTE, image6->data);
-	glBindTexture(GL_TEXTURE_2D, textures[6]); //выбрать текущую текстуру
+	glBindTexture(GL_TEXTURE_2D, textures[6]); //РІС‹Р±СЂР°С‚СЊ С‚РµРєСѓС‰СѓСЋ С‚РµРєСЃС‚СѓСЂСѓ
 	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, image7->sizeX, image7->sizeY, GL_RGB, GL_UNSIGNED_BYTE, image7->data);
-	glBindTexture(GL_TEXTURE_2D, textures[7]); //выбрать текущую текстуру
+	glBindTexture(GL_TEXTURE_2D, textures[7]); //РІС‹Р±СЂР°С‚СЊ С‚РµРєСѓС‰СѓСЋ С‚РµРєСЃС‚СѓСЂСѓ
 	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, image8->sizeX, image8->sizeY, GL_RGB, GL_UNSIGNED_BYTE, image8->data);
-	glBindTexture(GL_TEXTURE_2D, textures[8]); //выбрать текущую текстуру
+	glBindTexture(GL_TEXTURE_2D, textures[8]); //РІС‹Р±СЂР°С‚СЊ С‚РµРєСѓС‰СѓСЋ С‚РµРєСЃС‚СѓСЂСѓ
 	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, image9->sizeX, image9->sizeY, GL_RGB, GL_UNSIGNED_BYTE, image9->data);
 }
 
-/* расчет текстурных координат*/
+/* СЂР°СЃС‡РµС‚ С‚РµРєСЃС‚СѓСЂРЅС‹С… РєРѕРѕСЂРґРёРЅР°С‚*/
 void setTextureCoordinates()
 {
 	type_point coord = type_point(1, sqrt(3) / 4);
@@ -136,7 +136,7 @@ void setTextureCoordinates()
 	TextureCoordinates.push_back(coord);
 }
 
-/* вычисление координат шестиугольника/круга */
+/* РІС‹С‡РёСЃР»РµРЅРёРµ РєРѕРѕСЂРґРёРЅР°С‚ С€РµСЃС‚РёСѓРіРѕР»СЊРЅРёРєР°/РєСЂСѓРіР° */
 void Build_Points(int x)
 {
 	glPushMatrix();
@@ -161,7 +161,7 @@ void Build_Points(int x)
 	glPopMatrix();
 }
 
-/* координаты искомой точки в координатах сетки */
+/* РєРѕРѕСЂРґРёРЅР°С‚С‹ РёСЃРєРѕРјРѕР№ С‚РѕС‡РєРё РІ РєРѕРѕСЂРґРёРЅР°С‚Р°С… СЃРµС‚РєРё */
 bool PointIngrid(float x0, float y0, float * xi, float * yj, int key)
 {
 	bool found = false;
@@ -185,7 +185,7 @@ bool PointIngrid(float x0, float y0, float * xi, float * yj, int key)
 	return (found);
 }
 
-/* функция растеризации */
+/* С„СѓРЅРєС†РёСЏ СЂР°СЃС‚РµСЂРёР·Р°С†РёРё */
 void Circuit(vector <vector<colour>> &colours, int j, type_point x0, type_point x1)
 {
 	if (Numb[j].mode == 1)
@@ -196,7 +196,7 @@ void Circuit(vector <vector<colour>> &colours, int j, type_point x0, type_point 
 		int temp;
 		found = PointIngrid(x0.x, x0.y, &i, &l, 0);
 		int k = -1;
-		if (found)		//определена принадлежность точки начала отрезка сеткелю [i, j]
+		if (found)		//РѕРїСЂРµРґРµР»РµРЅР° РїСЂРёРЅР°РґР»РµР¶РЅРѕСЃС‚СЊ С‚РѕС‡РєРё РЅР°С‡Р°Р»Р° РѕС‚СЂРµР·РєР° СЃРµС‚РєРµР»СЋ [i, j]
 		{
 			double t;
 			int dx, dy, sy, sx;
@@ -281,8 +281,8 @@ void Circuit(vector <vector<colour>> &colours, int j, type_point x0, type_point 
 		delta = 2 - 2 * y;
 		while (y >= 0)
 		{
-			/* 4 точки, построенные симметричными отражениями в разных четвертях */
-			/* первая четверть */
+			/* 4 С‚РѕС‡РєРё, РїРѕСЃС‚СЂРѕРµРЅРЅС‹Рµ СЃРёРјРјРµС‚СЂРёС‡РЅС‹РјРё РѕС‚СЂР°Р¶РµРЅРёСЏРјРё РІ СЂР°Р·РЅС‹С… С‡РµС‚РІРµСЂС‚СЏС… */
+			/* РїРµСЂРІР°СЏ С‡РµС‚РІРµСЂС‚СЊ */
 			if (PointIngrid(Numb[j].O.x + x, Numb[j].O.y + y, &nx, &ny, 1))
 			{
 				cx = nx - Ox;
@@ -290,22 +290,22 @@ void Circuit(vector <vector<colour>> &colours, int j, type_point x0, type_point 
 				colours[nx][ny].ColorR = 0;
 				colours[nx][ny].ColorG = 0;
 				colours[nx][ny].ColorB = 0;
-				/* вторая четверть */
+				/* РІС‚РѕСЂР°СЏ С‡РµС‚РІРµСЂС‚СЊ */
 				colours[Ox - cx][ny].ColorR = 0;
 				colours[Ox - cx][ny].ColorB = 0;
 				colours[Ox - cx][ny].ColorG = 0;
 
-				/* третья четверть */
+				/* С‚СЂРµС‚СЊСЏ С‡РµС‚РІРµСЂС‚СЊ */
 				colours[Ox - cx][Oy - cy].ColorR = 0;
 				colours[Ox - cx][Oy - cy].ColorB = 0;
 				colours[Ox - cx][Oy - cy].ColorG = 0;
 
-				/* четвёртая четверть */
+				/* С‡РµС‚РІС‘СЂС‚Р°СЏ С‡РµС‚РІРµСЂС‚СЊ */
 				colours[nx][Oy - cy].ColorR = 0;
 				colours[nx][Oy - cy].ColorB = 0;
 				colours[nx][Oy - cy].ColorG = 0;
 			}
-			/* алгоритм */
+			/* Р°Р»РіРѕСЂРёС‚Рј */
 			error = 2 * (delta + y) - 1;
 			if (delta < 0 && error <= 0)
 			{
@@ -331,7 +331,7 @@ void Circuit(vector <vector<colour>> &colours, int j, type_point x0, type_point 
 	}
 }
 
-/* функция закраски фигуры */
+/* С„СѓРЅРєС†РёСЏ Р·Р°РєСЂР°СЃРєРё С„РёРіСѓСЂС‹ */
 void FigureFilling(vector <vector<colour>> &nestedColours, int k)
 {
 	int i, j;
@@ -348,7 +348,7 @@ void FigureFilling(vector <vector<colour>> &nestedColours, int k)
 		str = true;
 		for (i = 0; i < Width / gridSize + 1; i++)
 		{
-			/* если это не серенький цвет клеточек, и если не дошли до конца, то это контур круга, идём по 2 и 3 четверти*/
+			/* РµСЃР»Рё СЌС‚Рѕ РЅРµ СЃРµСЂРµРЅСЊРєРёР№ С†РІРµС‚ РєР»РµС‚РѕС‡РµРє, Рё РµСЃР»Рё РЅРµ РґРѕС€Р»Рё РґРѕ РєРѕРЅС†Р°, С‚Рѕ СЌС‚Рѕ РєРѕРЅС‚СѓСЂ РєСЂСѓРіР°, РёРґС‘Рј РїРѕ 2 Рё 3 С‡РµС‚РІРµСЂС‚Рё*/
 			if ((nestedColours[i][j].ColorR != 240 || nestedColours[i][j].ColorG != 255 || nestedColours[i][j].ColorB != 240) && i <= Width / (2 * gridSize) && str)
 			{
 				
@@ -361,7 +361,7 @@ void FigureFilling(vector <vector<colour>> &nestedColours, int k)
 					if (nestedColours[l][j].ColorR != 240 || nestedColours[l][j].ColorG != 255 || nestedColours[l][j].ColorB != 240)
 						str1 = 0;
 				}
-				/* пока не встретили контур, идём вверх по столбцам и закрашиваем в цвет контура */
+				/* РїРѕРєР° РЅРµ РІСЃС‚СЂРµС‚РёР»Рё РєРѕРЅС‚СѓСЂ, РёРґС‘Рј РІРІРµСЂС… РїРѕ СЃС‚РѕР»Р±С†Р°Рј Рё Р·Р°РєСЂР°С€РёРІР°РµРј РІ С†РІРµС‚ РєРѕРЅС‚СѓСЂР° */
 				while (str && i < Width / gridSize)
 				{
 					if (i != l)
@@ -392,7 +392,7 @@ void FigureFilling(vector <vector<colour>> &nestedColours, int k)
 	}
 }
 
-/* сглаживание */
+/* СЃРіР»Р°Р¶РёРІР°РЅРёРµ */
 void Smooth(vector <vector<colour>> &colours, vector <vector<colour>> &nested_colours)
 {
 	int i, j;
@@ -403,7 +403,7 @@ void Smooth(vector <vector<colour>> &colours, vector <vector<colour>> &nested_co
 		for (j = 1; j < Height / gridSize; j++)
 		{
 			r = b = g = 0;
-			/* сумма цветов элементов вложенной сетки */
+			/* СЃСѓРјРјР° С†РІРµС‚РѕРІ СЌР»РµРјРµРЅС‚РѕРІ РІР»РѕР¶РµРЅРЅРѕР№ СЃРµС‚РєРё */
 			for (il = 2 * i - 1; il < 2 * i + 1; il++)
 				for (jl = 2 * j - 1; jl < 2 * j + 1; jl++)
 				{
@@ -412,7 +412,7 @@ void Smooth(vector <vector<colour>> &colours, vector <vector<colour>> &nested_co
 					b += nested_colours[il][jl].ColorB;
 				}
 
-			/* получаем среднее */
+			/* РїРѕР»СѓС‡Р°РµРј СЃСЂРµРґРЅРµРµ */
 			r /= 4;
 			g /= 4;
 			b /= 4;
@@ -426,11 +426,11 @@ void Smooth(vector <vector<colour>> &colours, vector <vector<colour>> &nested_co
 #pragma endregion
 
 #pragma region Display work
-/* Функция вывода на экран */
+/* Р¤СѓРЅРєС†РёСЏ РІС‹РІРѕРґР° РЅР° СЌРєСЂР°РЅ */
 void Display(void)
 {
 	int l = 0;
-	/* разбиваем сетку по иксу и игрику */
+	/* СЂР°Р·Р±РёРІР°РµРј СЃРµС‚РєСѓ РїРѕ РёРєСЃСѓ Рё РёРіСЂРёРєСѓ */
 	int nx = Width / gridSize;
 	int ny = Height / gridSize;
 
@@ -440,7 +440,7 @@ void Display(void)
 	glEnable(GL_LINE_SMOOTH);
 	glEnable(GL_POINT_SMOOTH);
 
-	/* задаём цвета сетки, по умолчанию поставим белые */
+	/* Р·Р°РґР°С‘Рј С†РІРµС‚Р° СЃРµС‚РєРё, РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ РїРѕСЃС‚Р°РІРёРј Р±РµР»С‹Рµ */
 	vector <vector<colour>> colours(nx + 1);
 	for (int i = 0; i < nx + 1; i++)
 	{
@@ -453,7 +453,7 @@ void Display(void)
 		}
 	}
 	
-	if (colorMod)		//если включен режим смешения цветов
+	if (colorMod)		//РµСЃР»Рё РІРєР»СЋС‡РµРЅ СЂРµР¶РёРј СЃРјРµС€РµРЅРёСЏ С†РІРµС‚РѕРІ
 	{
 		glEnable(GL_COLOR_LOGIC_OP);
 		if (colorMod == 1) glLogicOp(GL_AND);
@@ -464,11 +464,11 @@ void Display(void)
 
 	if (smoothMode)
 	{
-		/* уменьшаем размер главной сетки в 2 раза */
+		/* СѓРјРµРЅСЊС€Р°РµРј СЂР°Р·РјРµСЂ РіР»Р°РІРЅРѕР№ СЃРµС‚РєРё РІ 2 СЂР°Р·Р° */
 		gridSize = smoothSize;
 		nx = Width / gridSize;
 		ny = Height / gridSize;
-		/* цвета вложенной внутри круга сетки, аналогично обычной сетке */
+		/* С†РІРµС‚Р° РІР»РѕР¶РµРЅРЅРѕР№ РІРЅСѓС‚СЂРё РєСЂСѓРіР° СЃРµС‚РєРё, Р°РЅР°Р»РѕРіРёС‡РЅРѕ РѕР±С‹С‡РЅРѕР№ СЃРµС‚РєРµ */
 		nested_colours.resize(nx + 1);
 		for (int i = 0; i < nx + 1; i++)
 		{
@@ -484,7 +484,7 @@ void Display(void)
 	
 	for (int j = 0; j < Points.size(); j++)
 	{
-		/* режим ломаной */
+		/* СЂРµР¶РёРј Р»РѕРјР°РЅРѕР№ */
 		if (Numb[j].mode == 0)
 		{
 			if (Numb[j].texture == -1)
@@ -496,29 +496,29 @@ void Display(void)
 				glVertex2f(Points[j][i].x, Points[j][i].y);
 			glEnd();
 		}
-		/* режим шестиугольника */
+		/* СЂРµР¶РёРј С€РµСЃС‚РёСѓРіРѕР»СЊРЅРёРєР° */
 		if (Numb[j].mode == 1)
 		{
 
 			if (Numb[j].texture != -1)
 			{
-				/* выбрать текстуру */
+				/* РІС‹Р±СЂР°С‚СЊ С‚РµРєСЃС‚СѓСЂСѓ */
 				glBindTexture(GL_TEXTURE_2D, textures[Numb[j].texture]);
 				if(Numb[j].textureMode)
 					glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 				else
-					/* тип наложения текстуры - цвет фигуры не учитывается */
+					/* С‚РёРї РЅР°Р»РѕР¶РµРЅРёСЏ С‚РµРєСЃС‚СѓСЂС‹ - С†РІРµС‚ С„РёРіСѓСЂС‹ РЅРµ СѓС‡РёС‚С‹РІР°РµС‚СЃСЏ */
 					glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-				/*разрешить текстурирование */
+				/*СЂР°Р·СЂРµС€РёС‚СЊ С‚РµРєСЃС‚СѓСЂРёСЂРѕРІР°РЅРёРµ */
 				glEnable(GL_TEXTURE_2D);
 			}
 			else
 				glDisable(GL_TEXTURE_2D);
 			
 			glPushMatrix();
-			// участок с поворотом вокруг центра
+			// СѓС‡Р°СЃС‚РѕРє СЃ РїРѕРІРѕСЂРѕС‚РѕРј РІРѕРєСЂСѓРі С†РµРЅС‚СЂР°
 			glTranslated(Numb[j].O.x, Numb[j].O.y, 0);
-			glScalef(Numb[j].scaleX, Numb[j].scaleY, 1);	//масштабирование вдоль осей
+			glScalef(Numb[j].scaleX, Numb[j].scaleY, 1);	//РјР°СЃС€С‚Р°Р±РёСЂРѕРІР°РЅРёРµ РІРґРѕР»СЊ РѕСЃРµР№
 			glRotated(Numb[j].angle, 0, 0, 1.0f);
 			glTranslated(-Numb[j].O.x, -Numb[j].O.y, 0);
 
@@ -542,7 +542,7 @@ void Display(void)
 		
 			glPopMatrix();
 			}
-		/* режим окружности */
+		/* СЂРµР¶РёРј РѕРєСЂСѓР¶РЅРѕСЃС‚Рё */
 		if (Numb[j].mode == 2)
 		{
 			if (Numb[j].texture == -1)
@@ -585,12 +585,12 @@ void Display(void)
 						else Circuit(nested_colours, j, Points[j][i], Points[j][0]);
 					}
 					if (Numb[j].circle) FigureFilling(nested_colours, j);
-					/* возвращаем сетке нормальный размер */
+					/* РІРѕР·РІСЂР°С‰Р°РµРј СЃРµС‚РєРµ РЅРѕСЂРјР°Р»СЊРЅС‹Р№ СЂР°Р·РјРµСЂ */
 					gridSize *= 2;
 					nx = Width / gridSize;
 					ny = Height / gridSize;
 					l++;
-					/* сглаживаем */
+					/* СЃРіР»Р°Р¶РёРІР°РµРј */
 					Smooth(colours, nested_colours);
 				}
 				else
@@ -615,12 +615,12 @@ void Display(void)
 						else Circuit(nested_colours, j, Points[j][i], Points[j][0]);
 					}
 					if(Numb[j].ColorR!=255 || Numb[j].ColorG!=255 || Numb[j].ColorB!=255) FigureFilling(nested_colours, j);
-					/* возвращаем сетке нормальный размер */
+					/* РІРѕР·РІСЂР°С‰Р°РµРј СЃРµС‚РєРµ РЅРѕСЂРјР°Р»СЊРЅС‹Р№ СЂР°Р·РјРµСЂ */
 					gridSize *= 2;
 					nx = Width / gridSize;
 					ny = Height / gridSize;
 					l++;
-					/* сглаживаем */
+					/* СЃРіР»Р°Р¶РёРІР°РµРј */
 					Smooth(colours, nested_colours);
 				}
 				else
@@ -636,10 +636,10 @@ void Display(void)
 		}
 	}
 
-	/* если режим растеризации включен */
+	/* РµСЃР»Рё СЂРµР¶РёРј СЂР°СЃС‚РµСЂРёР·Р°С†РёРё РІРєР»СЋС‡РµРЅ */
 	if (modeGrid)
 	{
-		/* отрисовываем пиксели сетки */
+		/* РѕС‚СЂРёСЃРѕРІС‹РІР°РµРј РїРёРєСЃРµР»Рё СЃРµС‚РєРё */
 		glBegin(GL_QUADS);
 		for (int i = 0; i < nx + 1; i++)
 		{
@@ -654,7 +654,7 @@ void Display(void)
 		}
 		glEnd();
 
-		/* отрисовываем саму сетку */
+		/* РѕС‚СЂРёСЃРѕРІС‹РІР°РµРј СЃР°РјСѓ СЃРµС‚РєСѓ */
 		glLineWidth(0.5);
 		glColor3ub(70, 70, 70);
 		glBegin(GL_LINES);
@@ -672,13 +672,13 @@ void Display(void)
 	}
 	else
 	{
-		/* отрисовка точек текущего примитива */
+		/* РѕС‚СЂРёСЃРѕРІРєР° С‚РѕС‡РµРє С‚РµРєСѓС‰РµРіРѕ РїСЂРёРјРёС‚РёРІР° */
 		glColor3ub(0, 0, 0);
 		glPushMatrix();
-		// участок с поворотом вокруг центра
+		// СѓС‡Р°СЃС‚РѕРє СЃ РїРѕРІРѕСЂРѕС‚РѕРј РІРѕРєСЂСѓРі С†РµРЅС‚СЂР°
 		glTranslated(Numb[n].O.x, Numb[n].O.y, 0);
 		if (Numb[n].mode == 1)
-			glScalef(Numb[n].scaleX, Numb[n].scaleY, 1);	//масштабирование вдоль осей
+			glScalef(Numb[n].scaleX, Numb[n].scaleY, 1);	//РјР°СЃС€С‚Р°Р±РёСЂРѕРІР°РЅРёРµ РІРґРѕР»СЊ РѕСЃРµР№
 		if (Numb[n].mode == 2)
 			glScalef(Numb[n].scaleR, Numb[n].scaleR, 1);
 		glRotated(Numb[n].angle, 0, 0, 1.0f);
@@ -693,7 +693,7 @@ void Display(void)
 	glFinish();
 }
 
-/* Функция изменения размеров окна */
+/* Р¤СѓРЅРєС†РёСЏ РёР·РјРµРЅРµРЅРёСЏ СЂР°Р·РјРµСЂРѕРІ РѕРєРЅР° */
 void Reshape(GLint w, GLint h)
 {
 	Width = w;    Height = h;
@@ -707,34 +707,34 @@ void Reshape(GLint w, GLint h)
 #pragma endregion
 
 #pragma region Control
-/* Функция обработки сообщений от клавиатуры */
+/* Р¤СѓРЅРєС†РёСЏ РѕР±СЂР°Р±РѕС‚РєРё СЃРѕРѕР±С‰РµРЅРёР№ РѕС‚ РєР»Р°РІРёР°С‚СѓСЂС‹ */
 void Keyboard(unsigned char key, int x, int y)
 {
 	int i, m = Points[n].size();
 
-	/* выход по нажатию Esc */
+	/* РІС‹С…РѕРґ РїРѕ РЅР°Р¶Р°С‚РёСЋ Esc */
 	if (key == 27) exit(0);
 
-	/* Изменение RGB-компонент цвета точек */
+	/* РР·РјРµРЅРµРЅРёРµ RGB-РєРѕРјРїРѕРЅРµРЅС‚ С†РІРµС‚Р° С‚РѕС‡РµРє */
 	if (key == 'r') Numb[n].ColorR += 5;
 	if (key == 'g') Numb[n].ColorG += 5;
 	if (key == 'b') Numb[n].ColorB += 5;
 
-	/* Изменение XY-кординат точек */
+	/* РР·РјРµРЅРµРЅРёРµ XY-РєРѕСЂРґРёРЅР°С‚ С‚РѕС‡РµРє */
 	if (key == 'w') { for (i = 0; i < m; i++) Points[n][i].y += 5; Numb[n].O.y += 5; }
 	if (key == 's') { for (i = 0; i < m; i++) Points[n][i].y -= 5; Numb[n].O.y -= 5; }
 	if (key == 'a') { for (i = 0; i < m; i++) Points[n][i].x -= 5; Numb[n].O.x -= 5; }
 	if (key == 'd') { for (i = 0; i < m; i++) Points[n][i].x += 5; Numb[n].O.x += 5; }
 
-	/* Изменение размера точек */
+	/* РР·РјРµРЅРµРЅРёРµ СЂР°Р·РјРµСЂР° С‚РѕС‡РµРє */
 	if (key == 'u') Numb[n].PointSize++;
 	if (key == 'i') Numb[n].PointSize--;
 
-	/* Изменение размера линии */
+	/* РР·РјРµРЅРµРЅРёРµ СЂР°Р·РјРµСЂР° Р»РёРЅРёРё */
 	if (key == 'j') Numb[n].LineSize++;
 	if (key == 'k') Numb[n].LineSize--;
 
-	/* Изменение группы примитивов*/
+	/* РР·РјРµРЅРµРЅРёРµ РіСЂСѓРїРїС‹ РїСЂРёРјРёС‚РёРІРѕРІ*/
 	if (key == 'x') 
 		if (n + 1 < Points.size())
 			n++;
@@ -742,7 +742,7 @@ void Keyboard(unsigned char key, int x, int y)
 		if (n != 0)
 			n--;
 
-	/* удаление текущего примитива */
+	/* СѓРґР°Р»РµРЅРёРµ С‚РµРєСѓС‰РµРіРѕ РїСЂРёРјРёС‚РёРІР° */
 	if (key == 'c')
 	{
 		if (n != 0)
@@ -763,12 +763,12 @@ void Keyboard(unsigned char key, int x, int y)
 		}
 	}
 
-	/* функция поворота шестиугольника по часовой стрелке */
+	/* С„СѓРЅРєС†РёСЏ РїРѕРІРѕСЂРѕС‚Р° С€РµСЃС‚РёСѓРіРѕР»СЊРЅРёРєР° РїРѕ С‡Р°СЃРѕРІРѕР№ СЃС‚СЂРµР»РєРµ */
 	if (key == 'q')
 		if (Numb[n].mode == 1)
 			Numb[n].angle += 1;
 	
-	/* функция поворота шестиугольника против часовой стрелки */
+	/* С„СѓРЅРєС†РёСЏ РїРѕРІРѕСЂРѕС‚Р° С€РµСЃС‚РёСѓРіРѕР»СЊРЅРёРєР° РїСЂРѕС‚РёРІ С‡Р°СЃРѕРІРѕР№ СЃС‚СЂРµР»РєРё */
 	if (key == 'e')
 		if (Numb[n].mode == 1)
 			Numb[n].angle -= 1;
@@ -778,7 +778,7 @@ void Keyboard(unsigned char key, int x, int y)
 			colorMod++;
 		else colorMod = 0;
 
-	/* функция увеличения размера по х*/
+	/* С„СѓРЅРєС†РёСЏ СѓРІРµР»РёС‡РµРЅРёСЏ СЂР°Р·РјРµСЂР° РїРѕ С…*/
 	if (key == '+')
 	{
 		int key2 = glutGetModifiers();
@@ -792,7 +792,7 @@ void Keyboard(unsigned char key, int x, int y)
 		Numb[n].scaleR += 0.25;
 	}
 
-	/* функция уменьшения размера по у */
+	/* С„СѓРЅРєС†РёСЏ СѓРјРµРЅСЊС€РµРЅРёСЏ СЂР°Р·РјРµСЂР° РїРѕ Сѓ */
 	if (key == '-')
 	{
 		int key2 = glutGetModifiers();
@@ -807,7 +807,7 @@ void Keyboard(unsigned char key, int x, int y)
 		Numb[n].scaleR *= 0.75;
 	}
 
-	/* функция увеличения размера по y */
+	/* С„СѓРЅРєС†РёСЏ СѓРІРµР»РёС‡РµРЅРёСЏ СЂР°Р·РјРµСЂР° РїРѕ y */
 	if (key == '*')
 	{
 		int key2 = glutGetModifiers();
@@ -819,7 +819,7 @@ void Keyboard(unsigned char key, int x, int y)
 		else Numb[n].scaleY += 0.25;
 	}
 
-	/* функция уменьшения размера по у */
+	/* С„СѓРЅРєС†РёСЏ СѓРјРµРЅСЊС€РµРЅРёСЏ СЂР°Р·РјРµСЂР° РїРѕ Сѓ */
 	if (key == '/')
 	{
 		int key2 = glutGetModifiers();
@@ -831,7 +831,7 @@ void Keyboard(unsigned char key, int x, int y)
 		else Numb[n].scaleY *= 0.75;
 	}
 
-	/* режим ломаной || режим смешивания цветов */
+	/* СЂРµР¶РёРј Р»РѕРјР°РЅРѕР№ || СЂРµР¶РёРј СЃРјРµС€РёРІР°РЅРёСЏ С†РІРµС‚РѕРІ */
 	if (key == '1')
 	{
 		int key2 = glutGetModifiers();
@@ -852,13 +852,13 @@ void Keyboard(unsigned char key, int x, int y)
 		}
 	}
 
-	/* режим шестиугольника */
+	/* СЂРµР¶РёРј С€РµСЃС‚РёСѓРіРѕР»СЊРЅРёРєР° */
 	if (key == '2') mode = 1;
 
-	/* режим окружности */
+	/* СЂРµР¶РёРј РѕРєСЂСѓР¶РЅРѕСЃС‚Рё */
 	if (key == '3') mode = 2;
 
-	/* смена текстуры */
+	/* СЃРјРµРЅР° С‚РµРєСЃС‚СѓСЂС‹ */
 	if (key == 't') 
 	{
 		if (Numb[n].mode == 1)
@@ -872,14 +872,14 @@ void Keyboard(unsigned char key, int x, int y)
 	if (key == 'y') Numb[n].textureMode = !Numb[n].textureMode;
 	
 
-	char v[120]; sprintf(v, "Текущий цвет всех точек: R=%.3d G=%.3d B=%.3d  Текущий номер группы примитивов: %d Всего примитивов: %d", Numb[n].ColorR, Numb[n].ColorG, Numb[n].ColorB, n + 1, Points.size());
+	char v[120]; sprintf(v, "РўРµРєСѓС‰РёР№ С†РІРµС‚ РІСЃРµС… С‚РѕС‡РµРє: R=%.3d G=%.3d B=%.3d  РўРµРєСѓС‰РёР№ РЅРѕРјРµСЂ РіСЂСѓРїРїС‹ РїСЂРёРјРёС‚РёРІРѕРІ: %d Р’СЃРµРіРѕ РїСЂРёРјРёС‚РёРІРѕРІ: %d", Numb[n].ColorR, Numb[n].ColorG, Numb[n].ColorB, n + 1, Points.size());
 	glutSetWindowTitle(v);
 	glutPostRedisplay();
 }
 
 void KeyboardSpecialKeys(int key, int x, int y)
 {
-	/* режим сетки */
+	/* СЂРµР¶РёРј СЃРµС‚РєРё */
 	if (key == GLUT_KEY_F1)
 	{
 		if (modeGrid == 0)
@@ -888,7 +888,7 @@ void KeyboardSpecialKeys(int key, int x, int y)
 		smoothSize = gridSize / 2;
 	}
 
-	/* размер сетки */
+	/* СЂР°Р·РјРµСЂ СЃРµС‚РєРё */
 	if (key == GLUT_KEY_F2)
 	{
 		if (gridSize < 16)
@@ -897,7 +897,7 @@ void KeyboardSpecialKeys(int key, int x, int y)
 		smoothSize = gridSize / 2;
 	}
 	
-	/* режим сглаживания */
+	/* СЂРµР¶РёРј СЃРіР»Р°Р¶РёРІР°РЅРёСЏ */
 	if (key == GLUT_KEY_F3)
 	{
 		if (smoothMode == 0)
@@ -905,7 +905,7 @@ void KeyboardSpecialKeys(int key, int x, int y)
 		else smoothMode = 0;
 	}
 	
-	/* режим круга */
+	/* СЂРµР¶РёРј РєСЂСѓРіР° */
 	if (key == GLUT_KEY_F4)
 	{
 		if (Numb[n].mode == 2)
@@ -917,13 +917,13 @@ void KeyboardSpecialKeys(int key, int x, int y)
 	glutPostRedisplay();
 }
 
-/* Функция обработки сообщения от мыши */
+/* Р¤СѓРЅРєС†РёСЏ РѕР±СЂР°Р±РѕС‚РєРё СЃРѕРѕР±С‰РµРЅРёСЏ РѕС‚ РјС‹С€Рё */
 void Mouse(int button, int state, int x, int y)
 {
-	/* клавиша была нажата, но не отпущена */
+	/* РєР»Р°РІРёС€Р° Р±С‹Р»Р° РЅР°Р¶Р°С‚Р°, РЅРѕ РЅРµ РѕС‚РїСѓС‰РµРЅР° */
 	if (state != GLUT_DOWN) return;
 
-	/* новая точка по левому клику */
+	/* РЅРѕРІР°СЏ С‚РѕС‡РєР° РїРѕ Р»РµРІРѕРјСѓ РєР»РёРєСѓ */
 	if (button == GLUT_LEFT_BUTTON)
 	{
 		if (mode == 0)
@@ -986,7 +986,7 @@ void Mouse(int button, int state, int x, int y)
 			}
 		}
 	}
-		/* удаление последней точки по центральному клику */
+		/* СѓРґР°Р»РµРЅРёРµ РїРѕСЃР»РµРґРЅРµР№ С‚РѕС‡РєРё РїРѕ С†РµРЅС‚СЂР°Р»СЊРЅРѕРјСѓ РєР»РёРєСѓ */
 	if (button == GLUT_MIDDLE_BUTTON)
 	{
 		if (Points[n].size() != 0)
@@ -1024,60 +1024,60 @@ void Menu(int pos)
 
 	default:
 		int menu_color = glutCreateMenu(Menu);
-		glutAddMenuEntry("Компонента R", KeyR);
-		glutAddMenuEntry("Компонента G", KeyG);
-		glutAddMenuEntry("Компонента B", KeyB);
+		glutAddMenuEntry("РљРѕРјРїРѕРЅРµРЅС‚Р° R", KeyR);
+		glutAddMenuEntry("РљРѕРјРїРѕРЅРµРЅС‚Р° G", KeyG);
+		glutAddMenuEntry("РљРѕРјРїРѕРЅРµРЅС‚Р° B", KeyB);
 
 		int menu_move = glutCreateMenu(Menu);
-		glutAddMenuEntry("Вверх", KeyW);
-		glutAddMenuEntry("Вниз", KeyS);
-		glutAddMenuEntry("Bлево", KeyA);
-		glutAddMenuEntry("Вправо", KeyD);
+		glutAddMenuEntry("Р’РІРµСЂС…", KeyW);
+		glutAddMenuEntry("Р’РЅРёР·", KeyS);
+		glutAddMenuEntry("BР»РµРІРѕ", KeyA);
+		glutAddMenuEntry("Р’РїСЂР°РІРѕ", KeyD);
 
 		int menu_size = glutCreateMenu(Menu);
-		glutAddMenuEntry("Увеличить", KeyU);
-		glutAddMenuEntry("Уменьшить", KeyI);
+		glutAddMenuEntry("РЈРІРµР»РёС‡РёС‚СЊ", KeyU);
+		glutAddMenuEntry("РЈРјРµРЅСЊС€РёС‚СЊ", KeyI);
 
 		int menu_numb_primitiv = glutCreateMenu(Menu);
-		glutAddMenuEntry("Следующая группа примитивов", KeyX);
-		glutAddMenuEntry("Предыдущий группа примитивов", KeyZ);
+		glutAddMenuEntry("РЎР»РµРґСѓСЋС‰Р°СЏ РіСЂСѓРїРїР° РїСЂРёРјРёС‚РёРІРѕРІ", KeyX);
+		glutAddMenuEntry("РџСЂРµРґС‹РґСѓС‰РёР№ РіСЂСѓРїРїР° РїСЂРёРјРёС‚РёРІРѕРІ", KeyZ);
 
 		int menu_mode = glutCreateMenu(Menu);
-		glutAddMenuEntry("Режим замкнутой ломаной", Key1);
-		glutAddMenuEntry("Режим шестиугольника", Key2);
+		glutAddMenuEntry("Р РµР¶РёРј Р·Р°РјРєРЅСѓС‚РѕР№ Р»РѕРјР°РЅРѕР№", Key1);
+		glutAddMenuEntry("Р РµР¶РёРј С€РµСЃС‚РёСѓРіРѕР»СЊРЅРёРєР°", Key2);
 
 		int menu_info = glutCreateMenu(Menu);
-		glutAddMenuEntry("Клавиша R - изменить красную компоненту цвета", KeyR);
-		glutAddMenuEntry("Клавиша G - изменить зеленую компоненту цвета", KeyG);
-		glutAddMenuEntry("Клавиша B - изменить синюю компоненту цвета", KeyB);
-		glutAddMenuEntry("Клавиша W - переместить вверх", KeyW);
-		glutAddMenuEntry("Клавиша S - переместить вниз", KeyS);
-		glutAddMenuEntry("Клавиша A - переместить влево", KeyA);
-		glutAddMenuEntry("Клавиша D - переместить вправо", KeyD);
-		glutAddMenuEntry("Клавиша U - увеличить размер точки", KeyU);
-		glutAddMenuEntry("Клавиша I - уменьшить размер точки", KeyI);
-		glutAddMenuEntry("Клавиша J - увеличить толщину линии", KeyJ);
-		glutAddMenuEntry("Клавиша K - уменьшить толщину линии", KeyK);
-		glutAddMenuEntry("Клавиша X - выбрать следующий примитив", KeyX);
-		glutAddMenuEntry("Клавиша Z - выбрать предыдущий примитив", KeyZ);
-		glutAddMenuEntry("Клавиша C - удалить текущий примитив", KeyC);
-		glutAddMenuEntry("Клавиша 1 - режим замкнутой ломаной", Key1);
-		glutAddMenuEntry("Клавиша 2 - режим шестиугольника", Key2);
+		glutAddMenuEntry("РљР»Р°РІРёС€Р° R - РёР·РјРµРЅРёС‚СЊ РєСЂР°СЃРЅСѓСЋ РєРѕРјРїРѕРЅРµРЅС‚Сѓ С†РІРµС‚Р°", KeyR);
+		glutAddMenuEntry("РљР»Р°РІРёС€Р° G - РёР·РјРµРЅРёС‚СЊ Р·РµР»РµРЅСѓСЋ РєРѕРјРїРѕРЅРµРЅС‚Сѓ С†РІРµС‚Р°", KeyG);
+		glutAddMenuEntry("РљР»Р°РІРёС€Р° B - РёР·РјРµРЅРёС‚СЊ СЃРёРЅСЋСЋ РєРѕРјРїРѕРЅРµРЅС‚Сѓ С†РІРµС‚Р°", KeyB);
+		glutAddMenuEntry("РљР»Р°РІРёС€Р° W - РїРµСЂРµРјРµСЃС‚РёС‚СЊ РІРІРµСЂС…", KeyW);
+		glutAddMenuEntry("РљР»Р°РІРёС€Р° S - РїРµСЂРµРјРµСЃС‚РёС‚СЊ РІРЅРёР·", KeyS);
+		glutAddMenuEntry("РљР»Р°РІРёС€Р° A - РїРµСЂРµРјРµСЃС‚РёС‚СЊ РІР»РµРІРѕ", KeyA);
+		glutAddMenuEntry("РљР»Р°РІРёС€Р° D - РїРµСЂРµРјРµСЃС‚РёС‚СЊ РІРїСЂР°РІРѕ", KeyD);
+		glutAddMenuEntry("РљР»Р°РІРёС€Р° U - СѓРІРµР»РёС‡РёС‚СЊ СЂР°Р·РјРµСЂ С‚РѕС‡РєРё", KeyU);
+		glutAddMenuEntry("РљР»Р°РІРёС€Р° I - СѓРјРµРЅСЊС€РёС‚СЊ СЂР°Р·РјРµСЂ С‚РѕС‡РєРё", KeyI);
+		glutAddMenuEntry("РљР»Р°РІРёС€Р° J - СѓРІРµР»РёС‡РёС‚СЊ С‚РѕР»С‰РёРЅСѓ Р»РёРЅРёРё", KeyJ);
+		glutAddMenuEntry("РљР»Р°РІРёС€Р° K - СѓРјРµРЅСЊС€РёС‚СЊ С‚РѕР»С‰РёРЅСѓ Р»РёРЅРёРё", KeyK);
+		glutAddMenuEntry("РљР»Р°РІРёС€Р° X - РІС‹Р±СЂР°С‚СЊ СЃР»РµРґСѓСЋС‰РёР№ РїСЂРёРјРёС‚РёРІ", KeyX);
+		glutAddMenuEntry("РљР»Р°РІРёС€Р° Z - РІС‹Р±СЂР°С‚СЊ РїСЂРµРґС‹РґСѓС‰РёР№ РїСЂРёРјРёС‚РёРІ", KeyZ);
+		glutAddMenuEntry("РљР»Р°РІРёС€Р° C - СѓРґР°Р»РёС‚СЊ С‚РµРєСѓС‰РёР№ РїСЂРёРјРёС‚РёРІ", KeyC);
+		glutAddMenuEntry("РљР»Р°РІРёС€Р° 1 - СЂРµР¶РёРј Р·Р°РјРєРЅСѓС‚РѕР№ Р»РѕРјР°РЅРѕР№", Key1);
+		glutAddMenuEntry("РљР»Р°РІРёС€Р° 2 - СЂРµР¶РёРј С€РµСЃС‚РёСѓРіРѕР»СЊРЅРёРєР°", Key2);
 
 		int menu = glutCreateMenu(Menu);
-		glutAddSubMenu("Смена цвета", menu_color);
-		glutAddSubMenu("Перемещение", menu_move);
-		glutAddSubMenu("Изменение размера точки", menu_size);
-		glutAddSubMenu("Изменениегруппы примитивов", menu_numb_primitiv);
-		glutAddSubMenu("Режим построения", menu_mode);
-		glutAddSubMenu("Горячие клавиши", menu_info);
+		glutAddSubMenu("РЎРјРµРЅР° С†РІРµС‚Р°", menu_color);
+		glutAddSubMenu("РџРµСЂРµРјРµС‰РµРЅРёРµ", menu_move);
+		glutAddSubMenu("РР·РјРµРЅРµРЅРёРµ СЂР°Р·РјРµСЂР° С‚РѕС‡РєРё", menu_size);
+		glutAddSubMenu("РР·РјРµРЅРµРЅРёРµРіСЂСѓРїРїС‹ РїСЂРёРјРёС‚РёРІРѕРІ", menu_numb_primitiv);
+		glutAddSubMenu("Р РµР¶РёРј РїРѕСЃС‚СЂРѕРµРЅРёСЏ", menu_mode);
+		glutAddSubMenu("Р“РѕСЂСЏС‡РёРµ РєР»Р°РІРёС€Рё", menu_info);
 
 		glutAttachMenu(GLUT_RIGHT_BUTTON);
 		Keyboard(Empty, 0, 0);
 	}
 }
 
-/* Головная программа */
+/* Р“РѕР»РѕРІРЅР°СЏ РїСЂРѕРіСЂР°РјРјР° */
 void main(int argc, char *argv[])
 {
 	Points.resize(n + 1);
@@ -1086,7 +1086,7 @@ void main(int argc, char *argv[])
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGB);
 	glutInitWindowSize(Width, Height);
-	glutCreateWindow("Текущий цвет всех точек:");
+	glutCreateWindow("РўРµРєСѓС‰РёР№ С†РІРµС‚ РІСЃРµС… С‚РѕС‡РµРє:");
 	Menu(Empty);
 	Textures();
 	setTextureCoordinates();
